@@ -11,17 +11,29 @@
 <body>
     <dialog id="modal">
         <form>
-            <label for="width">Width</label>
-            <input type="number" name="width" id="width" min="200" value="500">
+            <div>  
+                <label for="width" id="width__label">Width:</label>
+                <input type="range" name="width" id="width" max="1000" value="500">
+            </div>
+          <div>
+            <label for="width"  id="height__label">Height:</label>
+            <input type="range" name="height" id="height" max="1000" value="500">
+          </div>
+          <div>
+            <label for="target"  id="target__label">Target Size:</label>
+            <input type="range" name="target" id="target" max="100"  value="30">
+          </div>
 
-            <label for="width">Height</label>
-            <input type="number" name="height" id="height" min="200" value="500">
+          
 
-            <label for="size">Target Size</label>
-            <input type="number" name="size" id="size" min="1"  value="30">
+          
 
-            <button id="cancel">CANCEL</button>
-            <button id="confirm">CONFIRM</button>
+            <div class="dialog__buttons"> 
+                <button id="confirm">CONFIRM</button>
+                <button id="cancel">CANCEL</button>
+               
+            </div>
+           
         </form>
     </dialog>
     <canvas></canvas>

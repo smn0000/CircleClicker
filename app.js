@@ -7,24 +7,33 @@ const cancelBtn = document.querySelector('#cancel')
 const modal = document.querySelector('#modal')
 const widthInput = document.querySelector('#width')
 const heightInput = document.querySelector('#height')
-const sizeInput = document.querySelector('#size')
+const targetInput = document.querySelector('#target')
+const widthLabel = document.querySelector('#width__label')
+const heightLabel = document.querySelector('#height__label')
+const targetLabel = document.querySelector('#target__label')
+
+console.log(heightLabel)
+// From events 
 
 customizeBtn.addEventListener('click', ()=>{
+    stopGame()
     modal.showModal();
+    heightLabel.innerHTML = `Height: ${WIDTH}`
+    widthLabel.innerHTML = `Width: ${HEIGHT}`
+    targetLabel.innerHTML = `Target Size: ${RADIUS}`
+
 })
 
 confirmBtn.addEventListener('click', (e) => {
     e.preventDefault()
-
- 
-
     WIDTH = Number(widthInput.value)
     HEIGHT = Number(heightInput.value)
-    RADIUS = Number(sizeInput.value)
+    RADIUS = Number(targetInput.value)
 
     canvas.width = WIDTH
     canvas.height = HEIGHT
     circle.radius = RADIUS
+
     modal.close()
 })
 
@@ -33,14 +42,34 @@ cancelBtn.addEventListener('click', (e) => {
     modal.close()
 })
 
+widthInput.addEventListener('input', (e) =>{
+    WIDTH = e.target.value
+    widthLabel.innerHTML = `Width: ${WIDTH}`
+    
+})
+
+heightInput.addEventListener('input', (e) =>{
+    HEIGHT = e.target.value
+    heightLabel.innerHTML = `Height: ${HEIGHT}`
+    
+})
+
+targetInput.addEventListener('input', (e) =>{
+    RADIUS = e.target.value
+    targetLabel.innerHTML = `Target Size: ${RADIUS}`
+})
+
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
 
 const TICK_RATE = 60
 
 let HEIGHT = 500
+
 let WIDTH = 500
+
 let RADIUS = 30
+
 
 class Circle {
     constructor(x, y, radius ){
@@ -69,11 +98,11 @@ class Circle {
         let x = Math.floor(Math.random() * WIDTH) 
         let y =  Math.floor(Math.random() * HEIGHT) 
 
-        if(x - this.radius < 0) x = this.radius
-        else if(x + this.radius > WIDTH) x = WIDTH - this.radius
+        if(x - this.radius < 0) x = this.radius * 2
+        else if(x + this.radius > WIDTH) x = WIDTH - this.radius * 2
 
-        if(y - this.radius < 0) y = this.radius
-        else if(y + this.radius > WIDTH) y = WIDTH - this.radius
+        if(y - this.radius < 0) y = this.radius * 2
+        else if(y + this.radius > WIDTH) y = WIDTH - this.radius * 2
 
         this.x = x
         this.y = y
@@ -94,11 +123,11 @@ let score = 0
 function handleClickBtn(){
     if(isGameRunning) {
         stopGame()
-        button.innerHTML = 'START'
+      
     }
     else{
         startGame()
-        button.innerHTML = 'STOP'
+       
     }
 }
 
@@ -107,6 +136,7 @@ function startGame() {
 
     ctx.clearRect(0,0,WIDTH,HEIGHT)
     gameLoop()
+    button.innerHTML = 'STOP'
     isGameRunning = true
 }
 
@@ -115,7 +145,7 @@ function stopGame(){
     canvas.removeEventListener('click', handleClick)
     clearInterval(loop)
     setScore(0)
-
+    button.innerHTML = 'START'
     ctx.clearRect(0,0,WIDTH,HEIGHT)
     isGameRunning = false
 }
